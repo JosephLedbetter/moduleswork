@@ -9,7 +9,6 @@ class UI {
     }
 
     showPosts(posts){
-        console.log(posts)
         let output = '';
 
         posts.forEach(function(post) {
@@ -30,6 +29,43 @@ class UI {
         });
         this.post.innerHTML = output;
     }   
+
+    showAlert(message, className) {
+        this.clearAlert();
+
+        // CREATING THE DIV
+        const div = document.createElement('div');
+        //ADD CLASSES
+        div.className = className;
+        //ADD TEXT
+        div.appendChild(document.createTextNode(message));
+        //GET PARENT --> beginning of inserting into the DOM
+        const container = document.querySelector('.postContainer');
+        //GET POST --> grabbing the POST div 
+        const posts = document.querySelector('#posts');
+        //INSERT YOUR ALERT DIV
+        container.insertBefore(div, posts);
+
+        //REMOVE AFTER THREE SECONDS WITH A SETTIMEOUT
+        setTimeout(() => {
+            this.clearAlert();
+        }, 3000);
+    }
+
+
+    clearAlert() {
+        const currentAlert = document.querySelector('.alert');
+       
+        if (currentAlert) {
+            currentAlert.remove();
+        }
+    }
+
+    clearFields() {
+        this.titleInput.value = '';
+        this.bodyInput.value = '';
+    }
 }
+
 
 export const ui = new UI();
