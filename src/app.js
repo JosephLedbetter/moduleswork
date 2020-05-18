@@ -10,6 +10,9 @@ document.querySelector('.post-submit').addEventListener('click', submitPost);
 //LISTEN FOR THE DELETE POST REQUEST 
 document.querySelector('#posts').addEventListener('click', removePost);
 
+//LISTEN FOR THE EDITSTATE() TO TAKE PLACE
+document.querySelector('#posts').addEventListener('click', enableEdit);
+
 function getPosts(){
   //HAVE TO RUN THE JSON:SERVER AND WEBPACK SIMULTANEOUSLY
   http.get('http://localhost:3000/posts')
@@ -31,7 +34,6 @@ function submitPost() {
   //CREATE POST REQUEST 
   http.post('http://localhost:3000/posts', data)
   .then(data => {
-    console.log('heard post data')
     ui.showAlert('Post Has Been Added!', 'alert alert-success');
     ui.clearFields();
     getPosts();
@@ -54,4 +56,28 @@ function removePost(e) {
       .catch(err => console.log(err));
     }
   }
+}
+
+//ENABLE EDIT STATE
+//ENABLE EDIT STATE
+//ENABLE EDIT STATE
+//ENABLE EDIT STATE
+function enableEdit(e){
+e.preventDefault();
+if(e.target.parentElement.classList.contains('edit')){
+  const id = e.target.parentElement.dataset.id;
+  const body = e.target.parentElement.previousElementSibling.textContent;
+  const title = e.target.parentElement.previousElementSibling.previousElementSibling.textContent;
+
+   const data = {
+     id, 
+     title, 
+     body
+   }
+
+
+   //FILL THE FORM WITH THE CURRENT POST
+   ui.fillForm(data);
+}
+
 }
