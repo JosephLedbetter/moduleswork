@@ -29,7 +29,7 @@ class EasyHTTP{
     }
     
     // make an HTTP PUT Request
-    put(url){
+    put(url, data){
         return new Promise((resolve, reject) => {
             fetch(url, 
                 // posting has to take in physical data to be passed to the http.

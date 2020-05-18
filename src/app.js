@@ -25,6 +25,7 @@ function getPosts(){
   .catch(err => console.log(err));
 }
 
+//VALIDATE THE INPUT
 function submitPost() {
   const title = document.querySelector('#title').value;
   const body = document.querySelector('#body').value;
@@ -32,21 +33,31 @@ function submitPost() {
   if (title === '' || body === '') {
     ui.showAlert('Please complete both fields!', 'alert alert-danger')
   } else {
+
     const data = {
       title,
       body
     }
-  
-    console.log(data)
-  
-    //CREATE POST REQUEST 
-    http.post('http://localhost:3000/posts', data)
-    .then(data => {
-      ui.showAlert('Post Has Been Added!', 'alert alert-success');
-      ui.clearFields();
-      getPosts();
-    })
-    .catch(err => console.log(`not working correctly ${err}`));
+     
+    //CHECK FOR ID 
+    if(id ==='') {
+      //CREATE POST
+      http.post('http://localhost:3000/posts', data)
+      .then(data => {
+        ui.showAlert('Post Has Been Added!', 'alert alert-success');
+        ui.clearFields();
+        getPosts();
+      })
+      .catch(err => console.log(`not working correctly ${err}`));
+    } else {
+      http.put(`http://localhost:3000/posts/${id.value}`, data)
+      .then(data => {
+        ui.showAlert('Post Has Been Updated!', 'alert alert-success');
+        ui.changeFormState('add');
+        getPosts();
+      })
+      .catch(err => console.log(`not working correctly ${err}`));
+    }
   }
 }  
                                                                   
@@ -60,7 +71,6 @@ function removePost(e) {
       .then(data => {
         ui.showAlert('Post removed!', 'alert alert-success');
         getPosts();
-
       })
       .catch(err => console.log(err));
     }
@@ -99,5 +109,4 @@ function cancelEdit(e) {
     ui.changeFormState('add'); 
   }
 e.preventDefault();
-console.log('cancel edit heard')
 }
