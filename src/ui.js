@@ -78,11 +78,38 @@ class UI {
 
         this.changeFormState('edit');
     }
+
+    clearIdInput(){
+        this.idInput.value = '';
+    }
+
         //CHANGE FORM STATE
         changeFormState(type){
             if(type === 'edit'){
                 this.postSubmit.textContent = 'Update Post';
+                this.postSubmit.className = 'post-submit btn btn-warning btn-block';
+
+                //CANCEL BUTTON TO STEP FROM EDIT STATE
+                const button = document.createElement('button');
+                button.className = 'post-cancel btn btn-light  btn-block';
+                button.appendChild(document.createTextNode('Cancel Edit State'));
+
+                //GET PARENT
+                const cardForm = document.querySelector('.card-form');
+                //INSERTING BEFORE 'SPAN' IN HTML
+                const formEnd = document.querySelector('.form-end');
+                cardForm.insertBefore(button, formEnd);
             } else {
+                this.postSubmit.textContent = 'Post It!';
+                this.postSubmit.className = 'post-submit btn btn-primary btn-block';
+                //REMOVE CANCEL BUTTON IF THERE
+                if(document.querySelector('.post-cancel')){
+                    document.querySelector('.post-cancel').remove();
+                }
+                //CLEAR IF FROM THE HIDDEN FIELD
+                this.clearIdInput();
+                //clear text fields (already done 'clearFields')
+                this.clearFields();
 
             }
         }

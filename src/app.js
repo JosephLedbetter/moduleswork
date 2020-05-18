@@ -13,6 +13,11 @@ document.querySelector('#posts').addEventListener('click', removePost);
 //LISTEN FOR THE EDITSTATE() TO TAKE PLACE
 document.querySelector('#posts').addEventListener('click', enableEdit);
 
+//CANCEL THE EDITSTATE ACTION
+document.querySelector('.card-form').addEventListener('click', cancelEdit);
+
+/*_______ End of event listeners section  _______*/ 
+
 function getPosts(){
   //HAVE TO RUN THE JSON:SERVER AND WEBPACK SIMULTANEOUSLY
   http.get('http://localhost:3000/posts')
@@ -24,21 +29,25 @@ function submitPost() {
   const title = document.querySelector('#title').value;
   const body = document.querySelector('#body').value;
 
-  const data = {
-    title,
-    body
+  if (title === '' || body === '') {
+    ui.showAlert('Please complete both fields!', 'alert alert-danger')
+  } else {
+    const data = {
+      title,
+      body
+    }
+  
+    console.log(data)
+  
+    //CREATE POST REQUEST 
+    http.post('http://localhost:3000/posts', data)
+    .then(data => {
+      ui.showAlert('Post Has Been Added!', 'alert alert-success');
+      ui.clearFields();
+      getPosts();
+    })
+    .catch(err => console.log(`not working correctly ${err}`));
   }
-
-  console.log(data)
-
-  //CREATE POST REQUEST 
-  http.post('http://localhost:3000/posts', data)
-  .then(data => {
-    ui.showAlert('Post Has Been Added!', 'alert alert-success');
-    ui.clearFields();
-    getPosts();
-  })
-  .catch(err => console.log(`not working correctly ${err}`));
 }  
                                                                   
 function removePost(e) {
@@ -75,9 +84,20 @@ if(e.target.parentElement.classList.contains('edit')){
      body
    }
 
-
    //FILL THE FORM WITH THE CURRENT POST
    ui.fillForm(data);
+  }
+
 }
 
+//CANCEL EDIT STATE
+//CANCEL EDIT STATE
+//CANCEL EDIT STATE
+//CANCEL EDIT STATE
+function cancelEdit(e) {
+  if (e.target.classList.contains('post-cancel')){
+    ui.changeFormState('add'); 
+  }
+e.preventDefault();
+console.log('cancel edit heard')
 }
