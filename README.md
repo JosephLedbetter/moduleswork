@@ -28,4 +28,7 @@ Compile and build
 ```sh
 $ npm run build
 ```
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9f0ff0643edd9fe3a282b40fd7964311b38dd8c4
